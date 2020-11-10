@@ -11,15 +11,12 @@ pipeline {
             }
         }
         stage('Docker Push') {
-            environment {
-                
-                url= 'https://hub.docker.com/repository/docker/msoysal/hello-python'
-            }
           steps {
               echo 'Pushing docker image to registry'
-              
+              withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+              }
               script {
-                docker.withRegistry( url, 'msoysal_dockerhub' )
                 customImage.push()
                 customImage.push('latest')
               }
