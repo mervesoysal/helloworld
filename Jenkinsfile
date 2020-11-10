@@ -25,11 +25,11 @@ pipeline {
         }
         stage('Deploy on k8s') {
           steps {
-              script{
-                def image_id = "msoysal/hello-python" + ":$BUILD_NUMBER"
-                sh "ansible-playbook playbook.yaml --extra-vars \"image_id=${image_id}\""
-                }
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh 'cat deployment.yaml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
+              sh 'kubectl apply -f service.yaml'
             }
+          }
         }
     }
 }
