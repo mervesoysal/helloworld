@@ -27,7 +27,7 @@ pipeline {
     }
     stage('Docker Remove Image') {
       steps {
-        sh "docker rmi $customImage
+        sh "docker rmi $customImage"
       }
     }
     stage('Deploy on k8s') {
