@@ -5,6 +5,7 @@ pipeline {
             steps {
                 echo 'Starting to build docker image'
                 sh "docker build -t msoysal/hello-python:${env.BUILD_NUMBER} ."
+                sh "docker build -t msoysal/hello-python:latest .
             }
         }
         stage('Docker Push') {
