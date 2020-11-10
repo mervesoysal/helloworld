@@ -27,7 +27,7 @@ pipeline {
           steps {
               script{
                 def image_id = "msoysal/hello-python" + ":$BUILD_NUMBER"
-                sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${image_id}\""
+                sh "ansible-playbook playbook.yaml --extra-vars \"image_id=${image_id}\""
                 }
             }
         }
