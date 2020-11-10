@@ -13,7 +13,7 @@ pipeline {
         stage('Docker Push') {
           steps {
               echo 'Pushing docker image to registry'
-              withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+              withCredentials([usernamePassword(credentialsId: 'msoysal_dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
               }
               script {
