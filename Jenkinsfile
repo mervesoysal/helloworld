@@ -6,8 +6,7 @@ pipeline {
                 echo 'Starting to build docker image'
 
                 script {
-                    def customizeImage = docker.build("hello-python:${env.BUILD_ID}")
-                    env.customImage = customizeImage
+                    def customImage = docker.build("hello-python:${env.BUILD_ID}")
                 }
             }
         }
