@@ -1,4 +1,7 @@
 pipeline {
+    enviroment {
+        registryCredential= 'msoysal'
+    }
     agent any
     stages {
         stage('Build image') {
@@ -11,9 +14,6 @@ pipeline {
             }
         }
         stage('Docker Push') {
-            enviroment {
-                registryCredential= 'msoysal'
-            }
           steps {
               echo 'Pushing docker image to registry'
               
