@@ -4,10 +4,7 @@ pipeline {
         stage('Build image') {
             steps {
                 echo 'Starting to build docker image'
-
-                script {
-                  customImage = docker.build("hello-python:${env.BUILD_ID}")
-                }
+                sh "docker build -t msoysal/hello-python:${env.BUILD_NUMBER} ."
             }
         }
         stage('Docker Push') {
@@ -15,13 +12,14 @@ pipeline {
               echo 'Pushing docker image to registry'
               withCredentials([usernamePassword(credentialsId: 'msoysal_dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                sh "docker push msoysal/$customImage"
+                sh "docker push msoysal/hello-python:${env.BUILD_NUMBER}"
+                sh "docker push msoysal/hello-python:latest"
               }
             }
         }
         stage('Docker Remove Image') {
           steps {
-            sh "docker rmi $customImage"
+            sh "docker rmi msoysal/hello-python:${env.BUILD_NUMBER}"
           }
         }
         stage('Deploy on k8s') {
