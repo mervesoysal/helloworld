@@ -10,7 +10,6 @@ pipeline {
                 }
             }
         }
-    }
         stage('Docker Push') {
             enviroment {
                 registryCredential= 'msoysal'
