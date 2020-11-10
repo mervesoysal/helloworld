@@ -11,30 +11,31 @@ pipeline {
             }
         }
     }
-    stage('Docker Push') {
-	    enviroment {
-		    registryCredential= 'msoysal'
-		}
-      steps {
-	      echo 'Pushing docker image to registry'
-		  
-	      script {
-			docker.withRegistry( '', registryCredential )
-		    customImage.push()
-		    customImage.push('latest')
-		  }
+        stage('Docker Push') {
+            enviroment {
+                registryCredential= 'msoysal'
+            }
+          steps {
+              echo 'Pushing docker image to registry'
+              
+              script {
+                docker.withRegistry( '', registryCredential )
+                customImage.push()
+                customImage.push('latest')
+              }
+            }
         }
-    }
-    stage('Docker Remove Image') {
-      steps {
-        sh "docker rmi $customImage"
-      }
-    }
-    stage('Deploy on k8s') {
-      steps {
-          script{
-                   sh "ansible-playbook  playbook.yml --extra-vars \"$customImage\""
-               }
+        stage('Docker Remove Image') {
+          steps {
+            sh "docker rmi $customImage"
+          }
+        }
+        stage('Deploy on k8s') {
+          steps {
+              script{
+                sh "ansible-playbook  playbook.yml --extra-vars \"$customImage\""
+                }
+            }
         }
     }
 }
