@@ -15,6 +15,8 @@ pipeline {
               echo 'Pushing docker image to registry'
               withCredentials([usernamePassword(credentialsId: 'msoysal_dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+              }
+              script {
                 customImage.push()
                 customImage.push('latest')
               }
