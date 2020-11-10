@@ -26,7 +26,8 @@ pipeline {
         stage('Deploy on k8s') {
           steps {
               script{
-                sh "ansible-playbook  playbook.yml --extra-vars \"$customImage\""
+                def image_id = msoysal/hello-python + ":$BUILD_NUMBER"
+                sh "ansible-playbook  playbook.yml --extra-vars \"image_id=${image_id}\""
                 }
             }
         }
